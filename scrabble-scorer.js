@@ -22,17 +22,18 @@ let firstWord;
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
 	let letterPoints = "";
- 
+  let total = 0
 	for (let i = 0; i < word.length; i++) {
  
 	  for (const pointValue in oldPointStructure) {
  
 		 if (oldPointStructure[pointValue].includes(word[i])) {
 			letterPoints += `Points for '${word[i]}': ${pointValue}\n`
+      total += (Number(`${pointValue}`))
 		 }
 	  }
 	}
-	return letterPoints;
+	return (letterPoints + `Total points: ${total}`);
  }
 
 function simpleScore(word) {
@@ -57,6 +58,9 @@ function vowelBonusScore(word) {
   return (`${word} is worth ${score} points!`);
 }
 
+const scoringAlgorithms = [simpleScore, vowelBonusScore, oldScrabbleScorer];
+
+
 // your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
 // const enteredWord = [];
@@ -73,20 +77,20 @@ let scrabbleScore;
 const itsSimp = {
   name: "Simple Score",
   description: "Each letter is worth 1 point ",
-  scorerFunction: simpleScore
+  scorerFunction: scoringAlgorithms[0]
 }
 const veryVowely = {
   name: "Bonus Vowels",
   description: "Vowels are 3 pts, consonants are 1 pt.",
-  scorerFunction: "A function that returns a score based on the number of vowels and consonants. " + vowelBonusScore
+  scorerFunction: scoringAlgorithms[1]
 }
 const oldieButAGoodie = {
   name: "Scrabble",
   description: "The traditional scoring algorithm.",
-  scorerFunction: "Uses the oldScrabbleScorer function to determine the score for a given word. " + oldScrabbleScorer
+  scorerFunction: scoringAlgorithms[2]
 }
 
-const scoringAlgorithms = [itsSimp, veryVowely, oldieButAGoodie];
+
 //Hold on to the word entered, then we need to hold on to the object chosen, then return the object, then use the function to return the word.
 
 function scorerPrompt(num) {
